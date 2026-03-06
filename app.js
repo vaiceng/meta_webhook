@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
 app.post('/', async function(req, res) {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log('Webhook received ' + timestamp);
-  console.log(JSON.stringify(req.body, null, 2));
+
 
   try {
     await axios.post(process.env.N8N_WEBHOOK_URL, req.body);
@@ -31,9 +31,18 @@ app.post('/', async function(req, res) {
     console.error('Error sending to n8n:', error.message);
   }
 
+ 
+  try {
+
+    const chatwootWebhookUrl = "https://vertex-chatwoot.fu9nol.easypanel.host/webhooks/whatsapp/+5493512363262";
+    await axios.post(chatwootWebhookUrl, req.body);
+    console.log('Sent to Chatwoot successfully');
+  } catch (error) {
+    console.error('Error sending to Chatwoot:', error.message);
+  }
+
   res.status(200).end();
 });
-
 app.listen(port, function() {
   console.log('Listening on port ' + port);
 });
