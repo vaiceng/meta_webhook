@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  console.log(Webhook received ${timestamp});
+  console.log('Webhook received ${timestamp}');
   console.log(JSON.stringify(req.body, null, 2));
 
   try {
