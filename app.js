@@ -1,15 +1,12 @@
 const express = require('express');
 const axios = require('axios');
-
 const app = express();
-
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
 const verifyToken = process.env.VERIFY_TOKEN;
 
-//  Verificación del webhook (Meta)
-app.get('/', (req, res) => {
+app.get('/', function(req, res) {
   const mode = req.query['hub.mode'];
   const challenge = req.query['hub.challenge'];
   const token = req.query['hub.verify_token'];
@@ -22,9 +19,9 @@ app.get('/', (req, res) => {
   }
 });
 
-app.post('/', async (req, res) => {
+app.post('/', async function(req, res) {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  console.log('Webhook received ${timestamp}');
+  console.log('Webhook received ' + timestamp);
   console.log(JSON.stringify(req.body, null, 2));
 
   try {
@@ -37,6 +34,6 @@ app.post('/', async (req, res) => {
   res.status(200).end();
 });
 
-app.listen(port, () => {
-  console.log(Listening on port ${port});
+app.listen(port, function() {
+  console.log('Listening on port ' + port);
 });
